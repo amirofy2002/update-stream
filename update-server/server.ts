@@ -23,5 +23,7 @@ async function start() {
 start();
 
 function publishUpdate(id: string, topic: string) {
-  redisClient?.publish(topic, JSON.stringify({ id, topic }));
+  redisClient?.publish(topic, JSON.stringify({ id, topic }), (err, result) => {
+    console.log("message published", err?.message, result);
+  });
 }
