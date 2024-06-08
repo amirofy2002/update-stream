@@ -4,6 +4,8 @@ import { randomUUID } from "crypto";
 import { connect } from "./redis";
 import { Redis } from "ioredis";
 
+const PORT = process.env.PORT || process.env.port || 3000;
+
 let redisClient: Redis | null = null;
 async function start() {
   redisClient = await connect();
@@ -15,7 +17,7 @@ async function start() {
     publishUpdate(id, "football");
     return res.json({ succeeded: true, id });
   });
-  app.listen(3000, "0.0.0.0");
+  app.listen(+PORT, "0.0.0.0");
 }
 
 start();
