@@ -10,16 +10,16 @@ let redisClient: Redis | null = null;
 async function start() {
   redisClient = await connect();
   const app = express.default();
-  app.get("/webhook", (req, res) => {
+  app.get("/webhook/:topic", (req, res) => {
     const id = randomUUID();
+    const topic = req.params["topic"] ?? "football";
     console.log(`a new webhook received ${id}`);
 
-    publishUpdate(id, "football");
+    publishUpdate(id, topic);
     return res.json({ succeeded: true, id });
   });
   app.listen(+PORT, "0.0.0.0");
 }
-
 start();
 
 function publishUpdate(id: string, topic: string) {
